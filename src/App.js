@@ -53,27 +53,21 @@ function App() {
       });
       setCategories([0, 1.0]);
       setData([0, 5]);
-      setUserData({
-        ...userData,
-        historial: [
-          ...userData.historial,
-          {
-            multiplicator: categories[categories.length - 1],
-            won: !userData.betting,
-            bestBet:
-              !userData.betting &&
-              userData.bet * categories[categories.length - 1] >
-                userData.bestBet
-                ? userData.bet * categories[categories.length - 1]
-                : userData.bestBet,
-            earnings: !userData.betting
-              ? userData.bet * categories[categories.length - 1]
-              : -userData.bet,
-          },
-        ].slice(-5),
-        bet: 0,
-        betting: false,
-      });
+      if (userData.betting) {
+        setUserData({
+          ...userData,
+          historial: [
+            ...userData.historial,
+            {
+              multiplicator: categories[categories.length - 1],
+              won: false,
+              earnings: -userData.bet,
+            },
+          ].slice(-5),
+          bet: 0,
+          betting: false,
+        });
+      }
     } else {
       setData([...data, Math.round(data[data.length - 1] * 1.42 * 100) / 100]);
       setCategories([
@@ -95,7 +89,7 @@ function App() {
       if (appState.gameRunning) {
         handleClock();
       }
-    }, 5000);
+    }, 2000);
     const offGameInterval = setInterval(() => {
       if (!appState.gameRunning && userData.name !== "") {
         setAppState({ ...appState, countdown: appState.countdown - 1 });
@@ -134,8 +128,21 @@ function App() {
       setUserData({
         ...userData,
         betting: false,
+        bet: 0,
         balance:
           userData.balance + userData.bet * categories[categories.length - 1],
+        bestBet:
+          userData.bet * categories[categories.length - 1] > userData.bestBet
+            ? userData.bet * categories[categories.length - 1]
+            : userData.bestBet,
+        historial: [
+          ...userData.historial,
+          {
+            multiplicator: categories[categories.length - 1],
+            won: true,
+            earnings: userData.bet * categories[categories.length - 1],
+          },
+        ].slice(-5),
       });
     }
   };

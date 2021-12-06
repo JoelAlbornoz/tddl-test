@@ -16,7 +16,7 @@ function leftCardComponent(props) {
 
             <h4>Bet history: </h4>
             {props.userData.historial.map((item, index) => {
-              return <div key={'hstRslt' + index}><b style={{color: item.won ? 'green' : 'red'}}>x{item.multiplicator} ... ${item.earnings}</b>
+              return <div key={'hstRslt' + index}><b style={{color: item.won ? 'green' : 'red'}}>x{item.multiplicator} ___ ${item.earnings}</b>
               <br/></div>
             })}
             <h4>Best bet:  ${props.userData.bestBet}</h4>
