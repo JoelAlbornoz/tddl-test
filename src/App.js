@@ -60,7 +60,7 @@ function App() {
           {
             multiplicator: categories[categories.length - 1],
             won: !userData.betting,
-            bestbet:
+            bestBet:
               !userData.betting &&
               userData.bet * categories[categories.length - 1] >
                 userData.bestBet
